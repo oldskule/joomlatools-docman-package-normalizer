@@ -10,7 +10,7 @@ Joomlatools DOCman/FILEman Package Normalizer
 
 Verified against:  
     com_docman_v6.0.3.zip  
-    com_fileman_6.0.2.zip  
+    com_fileman_v6.0.2.zip  
     
 
 Usage:  
