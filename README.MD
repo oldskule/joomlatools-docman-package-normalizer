@@ -9,6 +9,6 @@ Joomlatools DOCman Package Normalizer
 
 Verified against com_docman_v6.0.3.zip:
 
-Usage:
+Usage:  
 python3 joomlatools_normalizer_v2.py /path/to/input.zip  
 python3 joomlatools_normalizer_v2.py /path/to/input.zip /path/to/output.zip
