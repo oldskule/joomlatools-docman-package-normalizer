@@ -1,4 +1,4 @@
-Joomlatools DOCman Package Normalizer
+Joomlatools DOCman/FILEman Package Normalizer
 =========================================
 ** Creates a repackaged zip that can install via Watchful.li or other remote management sites.
 
