@@ -8,9 +8,9 @@ Joomlatools DOCman Package Normalizer
 - Includes a conversion report and README inside the generated package
 
 Verified against:  
-  com_docman_v6.0.3.zip
-  com_fileman_6.0.2.zip  
-
+    com_docman_v6.0.3.zip  
+    com_fileman_6.0.2.zip  
+    
 
 Usage:  
 python3 joomlatools_normalizer_v2.py /path/to/input.zip  
