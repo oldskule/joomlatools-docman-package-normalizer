@@ -384,31 +384,102 @@ class {class_name}
         return true;
     }}
 
+		protected function cleanupLegacyPackageRows()
+			{{
+					try {{
+							$db = \Joomla\CMS\Factory::getDbo();
+			
+							// Remove only clearly broken legacy package records.
+							// Keep the current correct package element: pkg_docman
+							$query = $db->getQuery(true)
+									->delete($db->quoteName('#__extensions'))
+									->where($db->quoteName('type') . ' = ' . $db->quote('package'))
+									->where($db->quoteName('element') . ' IN (' . $db->quote('docman') . ', ' . $db->quote('pkg_docman') . ')');
+			
+							$db->setQuery($query)->execute();
+					}} catch (\Throwable $e) {{
+					}} catch (\Exception $e) {{
+					}}
+			}}
+			
+			protected function cleanupLegacyPackageManifestFiles()
+			{{
+					try {{
+							$files = array(
+									JPATH_ADMINISTRATOR . '/manifests/packages/pkg_docman.xml',
+							);
+			
+							foreach ($files as $file) {{
+									if (is_file($file)) {{
+											\Joomla\CMS\Filesystem\File::delete($file);
+									}}
+							}}
+					}} catch (\Throwable $e) {{
+					}} catch (\Exception $e) {{
+					}}
+			}}
+
     public function postflight($type, $adapter)
-    {{
-        if ($type === 'discover_install') {{
-            return true;
-        }}
-
-        try {{
-            $app = \Joomla\CMS\Factory::getApplication();
-            $app->setUserState('com_installer.redirect_url', $this->successUrl);
-            $app->enqueueMessage($this->successText, 'message');
-        }} catch (\Throwable $e) {{
-        }} catch (\Exception $e) {{
-        }}
-
-        try {{
-            $target = $this->getAbortHandler($adapter);
-            if (is_object($target) && method_exists($target, 'setRedirectUrl')) {{
-                $target->setRedirectUrl($this->successUrl);
-            }}
-        }} catch (\Throwable $e) {{
-        }} catch (\Exception $e) {{
-        }}
-
-        return true;
-    }}
+		{{
+				if ($type === 'discover_install') {{
+						return true;
+				}}
+		
+				try {{
+						$app = \Joomla\CMS\Factory::getApplication();
+						$app->setUserState('com_installer.redirect_url', $this->successUrl);
+						$app->enqueueMessage($this->successText, 'message');
+				}} catch (\Throwable $e) {{
+				}} catch (\Exception $e) {{
+				}}
+		
+				try {{
+						$target = $this->getAbortHandler($adapter);
+						if (is_object($target) && method_exists($target, 'setRedirectUrl')) {{
+								$target->setRedirectUrl($this->successUrl);
+						}}
+				}} catch (\Throwable $e) {{
+				}} catch (\Exception $e) {{
+				}}
+		
+				// Clean up legacy broken package records (NOT the current valid one)
+				if ($type === 'install' || $type === 'update') {{
+						try {{
+								$db = \Joomla\CMS\Factory::getDbo();
+		
+								$query = $db->getQuery(true)
+										->delete($db->quoteName('#__extensions'))
+										->where($db->quoteName('type') . ' = ' . $db->quote('package'))
+										->where(
+												$db->quoteName('element') . ' IN (' .
+												$db->quote('docman') . ', ' .
+												$db->quote('pkg_docman') .
+												')'
+										);
+		
+								$db->setQuery($query)->execute();
+						}} catch (\Throwable $e) {{
+						}} catch (\Exception $e) {{
+						}}
+		
+						// Remove stale manifest files from older bad installs
+						try {{
+								$files = array(
+										JPATH_ADMINISTRATOR . '/manifests/packages/pkg_docman.xml',
+								);
+		
+								foreach ($files as $file) {{
+										if (is_file($file)) {{
+												\Joomla\CMS\Filesystem\File::delete($file);
+										}}
+								}}
+						}} catch (\Throwable $e) {{
+						}} catch (\Exception $e) {{
+						}}
+				}}
+		
+				return true;
+		}}
 }}
 '''
 
