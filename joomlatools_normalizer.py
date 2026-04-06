@@ -212,11 +212,13 @@ def build_package_manifest(pkg_element: str, version: str, extensions: List[Exte
         attrs.append(f'id="{ext.element}"')
         files.append(f'        <file {" ".join(attrs)}>{ext.archive_name}</file>')
 
+    package_name = pkg_element[4:] if pkg_element.startswith('pkg_') else pkg_element
+
     return "\n".join([
         '<?xml version="1.0" encoding="utf-8"?>',
         '<extension type="package" method="upgrade" version="3.0">',
         f'    <name>{pkg_element}</name>',
-        f'    <packagename>{pkg_element}</packagename>',
+        f'    <packagename>{package_name}</packagename>',
         f'    <author>{meta.author}</author>',
         f'    <creationDate>{meta.creation_date}</creationDate>',
         f'    <copyright>{meta.copyright}</copyright>',
@@ -226,6 +228,7 @@ def build_package_manifest(pkg_element: str, version: str, extensions: List[Exte
         f'    <version>{version or "1.0.0"}</version>',
         '    <description>Standard Joomla package generated from a Joomlatools wrapper installer while preserving payload archives and installer checks.</description>',
         '    <scriptfile>script.php</scriptfile>',
+        '    <blockChildUninstall>false</blockChildUninstall>',
         '    <files>',
         *files,
         '    </files>',
