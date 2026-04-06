@@ -1,5 +1,6 @@
 Joomlatools DOCman Package Normalizer
 =========================================
+** Creates a repackaged zip that can install via Watchful.li or other remote management sites.
 
 - Recreates the wrapper's important preflight checks more closely
 - Preserves the wrapper's success URL and success text
@@ -16,4 +17,4 @@ Usage:
 python3 joomlatools_normalizer_v2.py /path/to/input.zip  
 python3 joomlatools_normalizer_v2.py /path/to/input.zip /path/to/output.zip
 
-** This repackage file can be install via Watchful.li or other remote management sites.
+
