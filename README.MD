@@ -1,5 +1,5 @@
-Joomlatools Normalizer v2
-=========================
+Joomlatools DOCman Package Normalizer
+=========================================
 
 - Recreates the wrapper's important preflight checks more closely
 - Preserves the wrapper's success URL and success text
